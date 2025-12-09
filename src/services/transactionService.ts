@@ -1,29 +1,26 @@
 import axios from 'axios';
 
-// Ganti dengan URL Function Transaction Service Anda
 const API_URL = import.meta.env.VITE_TRANSACTION_SERVICE_URL; 
 
+// Interface disesuaikan STRICT dengan payload request Anda
 export interface TransactionPayload {
   user_id: string;
   description: string;
-  amount: number;
   source: string;
   latitude?: number;
   longitude?: number;
 }
 
-// 1. Fungsi Create Transaksi
 export const createTransaction = async (payload: TransactionPayload) => {
   try {
     const response = await axios.post(`${API_URL}/api/transaction/create`, payload);
-    return response.data; // Mengembalikan { id: "...", status: "queued..." }
+    return response.data;
   } catch (error) {
     console.error("Create Error:", error);
     throw error;
   }
 };
 
-// 2. Fungsi Get Detail (Untuk Polling)
 export const getTransactionDetail = async (id: string, userId: string) => {
   try {
     const response = await axios.get(`${API_URL}/api/transaction/get`, {
@@ -36,7 +33,6 @@ export const getTransactionDetail = async (id: string, userId: string) => {
   }
 };
 
-// 3. Helper untuk Ambil Lokasi Browser
 export const getCurrentLocation = (): Promise<{lat: number, lng: number}> => {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
@@ -50,7 +46,9 @@ export const getCurrentLocation = (): Promise<{lat: number, lng: number}> => {
           });
         },
         (error) => {
-          reject(error);
+          console.warn("Gagal ambil lokasi:", error.message);
+          // Tetap resolve tapi null/undefined agar flow tidak putus
+          resolve({ lat: 0, lng: 0 }); 
         }
       );
     }
