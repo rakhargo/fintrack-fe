@@ -116,36 +116,70 @@ const handleSubmit = async () => {
 };
 
 const pollForCompletion = async (txId: string) => {
-  const maxRetries = 40; 
-  let attempts = 0;
-
+  // Tidak ada maxRetries, kita tunggu sampai kiamat atau sampai selesai
+  
   const interval = setInterval(async () => {
-    attempts++;
     try {
+      // Cek status ke server
       const txData = await getTransactionDetail(txId, token.value);
       
-      if (txData.is_processed === true) {
-        clearInterval(interval);
+      // Jika status is_processed sudah TRUE
+      if (txData && txData.is_processed === true) {
+        clearInterval(interval); // Hentikan looping
+        
+        // Update UI
         result.value = txData;
         isLoading.value = false;
         statusMessage.value = 'Selesai!';
+        
         // Reset form
         selectedFile.value = null;
         inputText.value = '';
-        // Reset file input value di DOM agar bisa pilih file yang sama lagi kalau mau
+        
+        // Reset file input di HTML
         const fileInput = document.getElementById('file') as HTMLInputElement;
         if(fileInput) fileInput.value = ''; 
 
-      } else if (attempts >= maxRetries) {
-        clearInterval(interval);
-        isLoading.value = false;
-        errorMessage.value = 'Timeout: AI belum selesai merespon.';
-      }
+      } 
+
     } catch (e) {
-      // Ignore polling error
+      // Ignore error (misal koneksi putus nyambung), tetap coba lagi di putaran berikutnya
+      console.log("Polling glitch, retrying...", e);
     }
-  }, 2000);
+  }, 2000); // Cek setiap 2000ms (2 detik)
 };
+
+// const pollForCompletion = async (txId: string) => {
+//   const maxRetries = 40; 
+//   let attempts = 0;
+
+//   const interval = setInterval(async () => {
+//     attempts++;
+//     try {
+//       const txData = await getTransactionDetail(txId, token.value);
+      
+//       if (txData.is_processed === true) {
+//         clearInterval(interval);
+//         result.value = txData;
+//         isLoading.value = false;
+//         statusMessage.value = 'Selesai!';
+//         // Reset form
+//         selectedFile.value = null;
+//         inputText.value = '';
+//         // Reset file input value di DOM agar bisa pilih file yang sama lagi kalau mau
+//         const fileInput = document.getElementById('file') as HTMLInputElement;
+//         if(fileInput) fileInput.value = ''; 
+
+//       } else if (attempts >= maxRetries) {
+//         clearInterval(interval);
+//         isLoading.value = false;
+//         errorMessage.value = 'Timeout: AI belum selesai merespon.';
+//       }
+//     } catch (e) {
+//       // Ignore polling error
+//     }
+//   }, 2000);
+// };
 </script>
 
 <template>
