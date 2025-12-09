@@ -11,26 +11,42 @@ export interface TransactionPayload {
   longitude?: number;
 }
 
-export const createTransaction = async (payload: TransactionPayload) => {
-  try {
-    const response = await axios.post(`${API_URL}/api/transaction/create`, payload);
-    return response.data;
-  } catch (error) {
-    console.error("Create Error:", error);
-    throw error;
+export const createTransaction = async (payload: any, token: string, isMultipart: boolean) => {
+  const headers: any = {
+    'Authorization': `Bearer ${token}`
+  };
+
+  // Jika JSON, set Content-Type. Jika Multipart (File), JANGAN set Content-Type (biarkan browser set boundary)
+  if (!isMultipart) {
+    headers['Content-Type'] = 'application/json';
   }
+
+  const response = await fetch(`${API_URL}/transaction/create`, {
+    method: 'POST',
+    headers: headers,
+    body: isMultipart ? payload : JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+    const err = await response.json();
+    throw new Error(err.error || 'Gagal membuat transaksi');
+  }
+  return response.json();
 };
 
-export const getTransactionDetail = async (id: string, userId: string) => {
-  try {
-    const response = await axios.get(`${API_URL}/api/transaction/get`, {
-      params: { id: id, user_id: userId }
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Get Detail Error:", error);
-    throw error;
+export const getTransactionDetail = async (id: string, token: string) => {
+  const response = await fetch(`${API_URL}/transaction/get?id=${id}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error('Gagal mengambil detail transaksi');
   }
+  return response.json();
 };
 
 export const getCurrentLocation = (): Promise<{lat: number, lng: number}> => {

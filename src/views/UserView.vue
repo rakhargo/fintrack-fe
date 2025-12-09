@@ -33,9 +33,9 @@
       <select v-model="form.source" style="width: 100%; padding: 8px; margin-top: 5px;">
         <option value="cash">Cash / Tunai</option>
         <option value="transfer">Transfer Bank</option>
-        <option value="qris">QRIS (GoPay/OVO/Dana)</option>
+        <option value="qris">QRIS</option>
         <option value="credit_card">Kartu Kredit</option>
-        <option value="paylater">PayLater</option>
+        <option value="lainnya">Lainnya</option>
       </select>
     </div>
 
