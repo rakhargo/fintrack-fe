@@ -21,7 +21,7 @@ export const createTransaction = async (payload: any, token: string, isMultipart
     headers['Content-Type'] = 'application/json';
   }
 
-  const response = await fetch(`${API_URL}/transaction/create`, {
+  const response = await fetch(`${API_URL}/api/transaction/create`, {
     method: 'POST',
     headers: headers,
     body: isMultipart ? payload : JSON.stringify(payload)
@@ -35,7 +35,7 @@ export const createTransaction = async (payload: any, token: string, isMultipart
 };
 
 export const getTransactionDetail = async (id: string, token: string) => {
-  const response = await fetch(`${API_URL}/transaction/get?id=${id}`, {
+  const response = await fetch(`${API_URL}/api/transaction/get?id=${id}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`,
