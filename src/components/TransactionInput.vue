@@ -116,7 +116,7 @@ const handleSubmit = async () => {
 };
 
 const pollForCompletion = async (txId: string) => {
-  const maxRetries = 20; 
+  const maxRetries = 40; 
   let attempts = 0;
 
   const interval = setInterval(async () => {
@@ -150,7 +150,7 @@ const pollForCompletion = async (txId: string) => {
 
 <template>
   <div class="container">
-    <h2>Input Transaksi Cerdas 🧠</h2>
+    <h2>Input Transaksi</h2>
     
     <div v-if="isAuthError" class="auth-warning">
       ⚠️ Anda belum login. Silakan masuk ke halaman login terlebih dahulu.
