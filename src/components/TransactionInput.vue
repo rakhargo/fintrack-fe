@@ -13,6 +13,8 @@ const result = ref<any>(null);
 const errorMessage = ref('');
 const isAuthError = ref(false); // Penanda jika user belum login
 
+const emit = defineEmits(['transaction-success']);
+
 // 1. OTOMATIS AMBIL TOKEN SAAT LOAD
 onMounted(() => {
   const storedToken = localStorage.getItem('fintrack_token');
@@ -131,6 +133,8 @@ const pollForCompletion = async (txId: string) => {
         result.value = txData;
         isLoading.value = false;
         statusMessage.value = 'Selesai!';
+
+        emit('transaction-success');
         
         // Reset form
         selectedFile.value = null;
