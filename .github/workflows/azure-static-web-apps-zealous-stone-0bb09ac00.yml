@@ -34,8 +34,7 @@ jobs:
           ###### End of Repository/Build Configurations ######
         env:
           VITE_AI_SERVICE_URL: ${{ secrets.VITE_AI_SERVICE_URL }}
-          VITE_TRANSACTION_SERVICE_URL: ${{ secrets.VITE_TRANSACTION_SERVICE_URL }}
-          VITE_USER_SERVICE_URL: ${{ secrets.VITE_USER_SERVICE_URL }}
+          VITE_API_GATEWAY_URL: ${{ secrets.VITE_API_GATEWAY_URL }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
