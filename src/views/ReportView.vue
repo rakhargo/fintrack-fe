@@ -82,7 +82,7 @@ const startPolling = (requestId: string) => {
       
       // Update data di list local
       const index = reports.value.findIndex(r => r.request_id === requestId);
-      if (index !== -1) {
+      if (index !== -1 && reports.value[index]) {
         reports.value[index].status = statusRes.status;
         
         // JIKA SELESAI
