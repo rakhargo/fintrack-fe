@@ -75,9 +75,10 @@ const fetchTransactions = async () => {
   try {
     const response = await getUserHistory(token);
     // Sort agar yang terbaru ada di paling atas
-    transactions.value = response.data.sort((a: any, b: any) => {
-      return new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime();
-    });
+    // transactions.value = response.data.sort((a: any, b: any) => {
+    //   return new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime();
+    // });
+    transactions.value = response.data
     
     // Reset ke halaman 1 setiap kali fetch baru
     currentPage.value = 1;
@@ -129,7 +130,7 @@ defineExpose({ fetchTransactions });
         >
           
           <div class="card-header">
-            <span class="date">{{ formatDate(trx.date) }}</span>
+            <span class="date">{{ formatDate(trx.transaction_date) }}</span>
             <span v-if="!trx.is_processed" class="badge-pending">⏳ Pending AI</span>
             <span v-else class="badge-category">{{ trx.category?.name || 'Uncategorized' }}</span>
           </div>
