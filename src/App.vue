@@ -25,8 +25,12 @@ const handleLogout = () => {
     <div class="header-content">
       <div class="brand">
         <h1>Fintrack Cloud ☁️</h1>
+        <nav class="main-nav" v-if="!isAuthPage">
+          <RouterLink to="/" active-class="active">Input</RouterLink> | 
+          <RouterLink to="/reports" active-class="active">Laporan</RouterLink>
+        </nav>
       </div>
-      
+            
       <button @click="handleLogout" class="logout-btn">
         Logout 🚪
       </button>
@@ -83,4 +87,7 @@ h1 {
 main {
   width: 100%;
 }
+.main-nav { margin-top: 5px; font-size: 0.9rem; }
+.main-nav a { text-decoration: none; color: #64748b; font-weight: 600; margin: 0 5px; }
+.main-nav a.active { color: #0f172a; border-bottom: 2px solid #0f172a; }
 </style>
