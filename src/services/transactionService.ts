@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_TRANSACTION_SERVICE_URL; 
+const API_URL = import.meta.env.VITE_API_GATEWAY_URL; 
 
 // Interface disesuaikan STRICT dengan payload request Anda
 export interface TransactionPayload {
@@ -21,7 +21,7 @@ export const createTransaction = async (payload: any, token: string, isMultipart
     headers['Content-Type'] = 'application/json';
   }
 
-  const response = await fetch(`${API_URL}/api/transaction/create`, {
+  const response = await fetch(`${API_URL}/transaction/create`, {
     method: 'POST',
     headers: headers,
     body: isMultipart ? payload : JSON.stringify(payload)
@@ -35,7 +35,7 @@ export const createTransaction = async (payload: any, token: string, isMultipart
 };
 
 export const getTransactionDetail = async (id: string, token: string) => {
-  const response = await fetch(`${API_URL}/api/transaction/get?id=${id}`, {
+  const response = await fetch(`${API_URL}/transaction/get?id=${id}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`,
@@ -45,6 +45,23 @@ export const getTransactionDetail = async (id: string, token: string) => {
 
   if (!response.ok) {
     throw new Error('Gagal mengambil detail transaksi');
+  }
+  return response.json();
+};
+
+export const getUserHistory = async (token: string) => {
+  // Asumsi endpointnya adalah /transaction/list atau /transaction/history
+  // Sesuaikan dengan route di Python Azure Function Anda
+  const response = await fetch(`${API_URL}/transaction/list`, { 
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error('Gagal mengambil riwayat transaksi');
   }
   return response.json();
 };

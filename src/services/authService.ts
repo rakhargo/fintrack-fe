@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // URL User Service (Ganti dengan URL Function App User Service Anda)
-const API_URL = import.meta.env.VITE_USER_SERVICE_URL;
+const API_URL = import.meta.env.VITE_API_GATEWAY_URL;
 
 export interface User {
   user_id: string;
@@ -34,7 +34,7 @@ export const getAuthToken = () => {
 
 export const register = async (name: string, email: string, password: string) => {
   try {
-    const response = await axios.post(`${API_URL}/api/user/register`, { name, email, password });
+    const response = await axios.post(`${API_URL}/user/register`, { name, email, password });
     return response.data;
   } catch (error: any) {
     throw new Error(error.response?.data?.error || 'Registrasi gagal.');
@@ -43,7 +43,7 @@ export const register = async (name: string, email: string, password: string) =>
 
 export const login = async (email: string, password: string) => {
   try {
-    const response = await axios.post(`${API_URL}/api/user/login`, { email, password });
+    const response = await axios.post(`${API_URL}/user/login`, { email, password });
     
     if (response.data.token) {
       saveUser({
@@ -64,7 +64,7 @@ export const getProfile = async () => {
     if (!token) throw new Error("No Token");
 
     try {
-        const response = await axios.get(`${API_URL}/api/user/profile`, {
+        const response = await axios.get(`${API_URL}/user/profile`, {
             headers: { Authorization: `Bearer ${token}` }
         });
         return response.data;
