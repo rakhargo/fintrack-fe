@@ -22,7 +22,7 @@ const saveUser = (userData: User) => {
 export const logoutUser = () => {
   localStorage.removeItem('fintrack_user');
   localStorage.removeItem('fintrack_token');
-  window.location.href = '/login'; // Redirect paksa
+  window.location.href = '/'; // Redirect paksa
 };
 
 // Helper: Ambil Token saat ini

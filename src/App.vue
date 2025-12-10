@@ -15,7 +15,7 @@ const handleLogout = () => {
   const confirm = window.confirm("Yakin ingin keluar?");
   if (confirm) {
     logoutUser(); 
-    router.push('/login'); 
+    router.push('/'); 
   }
 };
 </script>
