@@ -72,6 +72,11 @@ defineExpose({
             <div class="description">{{ truncateText(trx.description) }}</div>
             <div class="amount">Rp {{ formatCurrency(trx.amount) }}</div>
           </div>
+            <div v-if="trx.image_url" class="card-footer">
+            <a :href="trx.image_url" target="_blank" class="link-receipt">
+                📎 Lihat Struk Asli
+            </a>
+            </div>
       </div>
     </div>
   </div>
